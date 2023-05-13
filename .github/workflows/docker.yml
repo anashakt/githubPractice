@@ -1,0 +1,18 @@
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        required: true
+        type: string
+      tag:
+        type: string
+    secrets:
+      registry_username: 
+        required: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "start build"
+        run: "building docker image
+    
