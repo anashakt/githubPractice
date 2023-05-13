@@ -1,5 +1,6 @@
 env:
   final_tag: latest
+  repo_name: my-ecr-repo
 on:
 # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
@@ -58,7 +59,7 @@ jobs:
       - name: Build, tag, and push docker image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: ${{ inputs.repo_name }}
+          REPOSITORY: ${{ env.repo_name }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:${{ env.final_tag }} .
