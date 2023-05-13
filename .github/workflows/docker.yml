@@ -9,6 +9,7 @@ on:
         type: string
       tag:
         type: string
+        default: latest
       repo_name:
         required: true
         type: string
