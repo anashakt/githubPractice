@@ -9,6 +9,10 @@ on:
         type: string
       tag:
         type: string
+      repo_name:
+        required: true
+        type: string
+        default: "my-ecr-repo"
     secrets:
       registry_username: 
         required: false
@@ -36,10 +40,14 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
         with:
           registries: ${{ secrets.ACCOUNT_ID }}
+      - name: "create ECR repository"
+        uses: int128/create-ecr-repository-action@v1
+        with:
+          repository: ${{inputs.repo_name}}
       - name: Build, tag, and push docker image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: my-ecr-repo
+          REPOSITORY: ${{inputs.repo_name}}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
