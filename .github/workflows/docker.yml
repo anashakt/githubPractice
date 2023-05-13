@@ -45,12 +45,20 @@ jobs:
         uses: int128/create-ecr-repository-action@v1
         with:
           repository: my-ecr-repo
+      - name: Set the tag
+        run: |
+          if [ -z "{{ inputs.tag }}" ]
+          then
+            echo "final_tag=latest" >>$GITHUB_ENV
+          else
+            echo "final_tag={{ inputs.tag }}" >>$GITHUB_ENV
+
       - name: Build, tag, and push docker image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ inputs.repo_name }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:${{ inputs.tag }} .
-          docker push $REGISTRY/$REPOSITORY:${{ inputs.tag }}
+          docker build -t $REGISTRY/$REPOSITORY:${{ env.final_tag }} .
+          docker push $REGISTRY/$REPOSITORY:${{ env.final_tag }}
     
