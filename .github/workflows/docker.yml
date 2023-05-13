@@ -47,11 +47,11 @@ jobs:
           repository: my-ecr-repo
       - name: Set the tag
         run: |
-          if [ -z "{{ inputs.tag }}" ]
+          if [ -z "${{ inputs.tag }}" ]
           then
-            echo "final_tag=latest" >>$GITHUB_ENV
+            echo "final_tag=latest" >> $GITHUB_ENV
           else
-            echo "final_tag={{ inputs.tag }}" >>$GITHUB_ENV
+            echo "final_tag={{ inputs.tag }}" >> $GITHUB_ENV
           fi
       - name: Build, tag, and push docker image to Amazon ECR
         env:
