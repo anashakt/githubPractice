@@ -43,7 +43,7 @@ jobs:
       - name: "create ECR repository"
         uses: int128/create-ecr-repository-action@v1
         with:
-          repository: ${{inputs.repo_name}}
+          repository: my-ecr-repo
       - name: Build, tag, and push docker image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
